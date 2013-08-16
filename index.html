@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Claimh solais</title>
+		<link rel="stylesheet" href="style.titanium.css" />
+		<link rel="stylesheet" href="style.introduce.css" />
+		<script src="script.jquery.js"></script>
+		<script src="script.aes.js"></script>
+		<script src="script.cufon.js"></script>
+		<script src="script.cufon.neogothic.js"></script>
+		<script src="script.cufon.titillium.light.js"></script>
+		<script src="script.titanium.js"></script>
+	</head>
+	<body>
+		<script>
+			Titanium.insertContext({
+				itemName: 'Introduce',
+				isProtected: false,
+				slideData: [
+					Titanium.Slide({
+						entranceEffect: function() {
+							var Canvases = $(this).find('canvas');
+							
+							Canvases.eq(0).fadeIn('slow');
+							Canvases.eq(1).delay(250).fadeIn('slow');
+							Canvases.eq(2).delay(500).fadeIn('slow', function() {
+								$(this).family('img').css({
+									top: ($(window).height() - $(this).family('img').height()) * 9 / 16
+								}).animate({
+									top: ($(window).height() - $(this).family('img').height()) / 2,
+									opacity: 1
+								}, {
+									queue: false,
+									duration: 500
+								});
+							});
+							Canvases.eq(3).delay(750).fadeIn('slow');
+							Canvases.eq(4).delay(1000).fadeIn('slow');
+						},
+						objectList: [
+							Titanium.Slide.Object.Polygon([0, 0], [
+								[0, 0], ['20%', '100%'], [0, '100%']
+							], 1083782092),
+							Titanium.Slide.Object.Polygon([0, 0], [
+								[0, '20%'], ['40%', '100%'], [0, '100%']
+							], 1090488320),
+							Titanium.Slide.Object.Polygon([0, 0], [
+								[0, '40%'], ['60%', '100%'], [0, '100%']
+							], 1080465664),
+							Titanium.Slide.Object.Polygon([0, 0], [
+								[0, '60%'], ['80%', '100%'], [0, '100%']
+							], 1073781196),
+							Titanium.Slide.Object.Polygon([0, 0], [
+								[0, '80%'], ['100%', '100%'], [0, '100%']
+							], 1087111168),
+							$(Titanium.Slide.Object.Image([$(window).width() * -3 / 40, '50%'], 'img.object.logo.png')).css({
+								opacity: 0
+							}).get(0)
+						]
+					}),
+					Titanium.Slide({
+						Background: 'url(img.object.bg.speaker.png)',
+						transitionEffect: 'fadein',
+						entranceEffect: function() {
+							var imgCtx = $('#slideObj_Speaker').get(0).getContext('2d');
+							
+							$('#slideObj_speakerBg').get(0).getContext('2d').fillStyle = 'rgba(0, 0, 0, 0.5)';
+							
+							imgCtx.fillStyle = imgCtx.createPattern($('#slideObj_speakerImg').get(0), 'repeat');
+							imgCtx.shadowColor = 'rgba(0, 0, 0, 0.55)';
+							imgCtx.shadowOffsetY = 1;
+							imgCtx.shadowBlur = 2;
+							
+							Titanium.Thread.resourceList.Speaker = {
+								Radius: 0,
+								threadId: Titanium.Thread.Register(function() {
+									var Speaker = Titanium.Thread.resourceList.Speaker, bgCtx = $('#slideObj_speakerBg').get(0).getContext('2d'), imgCtx = $('#slideObj_Speaker').get(0).getContext('2d');
+									
+									if(Speaker.Radius <= 136) {
+										bgCtx.clearRect(0, 0, 272, 272);
+										bgCtx.beginPath();
+										bgCtx.arc(136, 136, Speaker.Radius, 0, 2 * Math.PI, false);
+										bgCtx.closePath();
+										bgCtx.fill();
+										
+										if(Speaker.Radius - 36 > 0) {
+											imgCtx.beginPath();
+											imgCtx.arc(100, 100, Speaker.Radius - 36, 0, 2 * Math.PI, false);
+											imgCtx.closePath();
+											imgCtx.fill();
+										}
+										
+										Speaker.Radius += 2;
+									} else {
+										Titanium.slideFlip('next');
+										Titanium.Thread.Destroy(Speaker.threadId);
+									}
+								}, 1)
+							};
+						},
+						objectList: [
+							Titanium.Slide.Object.Native('slideObj_speakerContainer', {
+								width: 272,
+								height: 272,
+								margin: '-136px 0 0 -136px',
+								top: '50%',
+								left: '50%',
+								transition: 'all 1s linear'
+							}, [
+								$(Titanium.Slide.Object.Canvas(272, 272, {})).attr('id', 'slideObj_speakerBg').get(0),
+								$(Titanium.Slide.Object.Canvas(200, 200, {
+									position: 'absolute',
+									top: 36,
+									left: 36
+								})).attr('id', 'slideObj_Speaker').get(0)
+							]),$(Titanium.Slide.Object.Image([0, 0], 'img.object.speaker.png')).attr('id', 'slideObj_speakerImg').hide().get(0),
+							Titanium.Slide.Object.Native('slideObj_speakerMsgs', {
+								display: 'none',
+								width: 780,
+								height: 272,
+								marginTop: -136,
+								background: 'url(img.object.speaker.info.png)',
+								top: '50%',
+								right: ($(window).width() - 1088) / 2
+							}, [])
+						],
+						eventQueue: [
+							function() {
+								$('#slideObj_speakerContainer').css({
+									left: ($(window).width() - 1088) / 2 + 136,
+									WebkitTransform: 'rotateZ(-360deg)'
+								});
+								
+								setTimeout(function() {
+									$('#slideObj_speakerMsgs').fadeIn();
+								}, 1000);
+							}
+						]
+					}),
+					Titanium.Slide({
+						Background: 'rgb(45, 45, 47)',
+						transitionEffect: 'fadein',
+						entranceEffect: function() {
+							var Canvas = $('#slideObj_graphCanvas'), Height = Canvas.height(), Ctx = Canvas.get(0).getContext('2d'), vertexMatrix = [[1, 0], [2, 1], [3, 1], [4, 2], [5, -4], [7, 3], [8, 4], [9, 3], [10, 3], [11, 4], [13, 3], [14, 3], [15, 4], [16, 4], [18, 6]];
+							
+							vertexMatrix.push([vertexMatrix[vertexMatrix.length - 1][0], vertexMatrix[vertexMatrix.length - 1][1]]);
+							vertexMatrix[vertexMatrix.length - 1][0] += 1;
+							
+							Ctx.strokeStyle = Ctx.fillStyle = 'rgb(130, 136, 130)';
+							Ctx.lineWidth = 5;
+							
+							for(var Count = 0; Count < vertexMatrix.length - 1; Count++) {
+								Ctx.beginPath();
+								Ctx.moveTo($(window).width() * 17 / 400 * (vertexMatrix[Count][0]), (16 - (vertexMatrix[Count][1] + 8)) * Height / 16);
+								Ctx.lineTo($(window).width() * 17 / 400 * (vertexMatrix[Count + 1][0]), (16 - (vertexMatrix[Count + 1][1] + 8)) * Height / 16);
+								Ctx.closePath();
+								Ctx.stroke();
+								
+								if(Count > 0 && Count < vertexMatrix.length - 1) {
+									Ctx.beginPath();
+									Ctx.arc($(window).width() * 17 / 400 * (vertexMatrix[Count][0]), (16 - (vertexMatrix[Count][1] + 8)) * Height / 16, 8, 0, 2 * Math.PI, false);
+									Ctx.closePath();
+									Ctx.fill();
+								}
+							}
+							
+							$(this).find('#slideObj_axisDataX span').css({
+								display: 'inline-block',
+								width: $(window).width() * 17 / 400,
+								textAlign: 'center'
+							}).eq(0).css({
+								paddingLeft: $(window).width() * 17 / 800
+							});
+							
+							Cufon.replace('#slideObj_axisDataX span, #slideObj_axisDataYPositive, #slideObj_axisDataYNegative, #slideObj_axisDataYZero', {
+								fontFamily: 'TitilliumText22L Light'
+							});
+							
+							Titanium.slideFlip('next');
+						},
+						objectList: [
+							Titanium.Slide.Object.Image([$(window).width() * 3 / -40, $(window).width() * 3 / 40], 'img.object.graph.name.png'),
+							$(Titanium.Slide.Object.Canvas($(window).width() * 17 / 20, $(window).height() - $(window).width() * 3 / 20, {
+								display: 'none',
+								top: $(window).width() * 3 / 40,
+								left: $(window).width() * 3 / 40
+							})).attr('id', 'slideObj_graphCanvas').get(0),
+							Titanium.Slide.Object.Native('slideObj_axisX', {
+								height: 10,
+								marginTop: -5,
+								background: 'rgb(255, 255, 255)',
+								top: '50%',
+								left: $(window).width() * 3 / 40,
+								transition: 'all 0.5s linear'
+							}, []),
+							Titanium.Slide.Object.Native('slideObj_axisY', {
+								width: 10,
+								background: 'rgb(255, 255, 255)',
+								top: '50%',
+								left: $(window).width() * 3 / 40,
+								transition: 'all 0.5s linear'
+							}, []),
+							$(Titanium.Slide.Object.Image([$(window).width() * 3 / -40, $(window).height() / 2 - 28], 'img.object.graph.axis.x.png')).attr('id', 'slideObj_axisNameX').hide().get(0),
+							$(Titanium.Slide.Object.Image([$(window).width() * 3 / 40 + 12, $(window).width() * 3 / 40], 'img.object.graph.axis.y.png')).attr('id', 'slideObj_axisNameY').hide().get(0),
+							Titanium.Slide.Object.Native('slideObj_axisDataX', {
+								display: 'none',
+								width: $(window).width() * 17 / 20,
+								top: $(window).height() / 2 + 5,
+								left: $(window).width() * 3 / 40,
+								fontSize: '18pt',
+								color: 'rgb(255, 255, 255)'
+							}, (function() {
+								var objArray = [];
+								
+								for(var Count = 1; Count <= 19; Count++) {
+									objArray.push(Titanium.Slide.Object.Text(Count.toString()));
+								}
+								
+								return objArray;
+							})()),
+							Titanium.Slide.Object.textBox('slideObj_axisDataYPositive', '+100', {
+								display: 'none',
+								top: $(window).width() * 3 / 40 - 10,
+								right: $(window).width() * 37 / 40 + 5,
+								fontSize: '18pt',
+								color: 'rgb(255, 255, 255)'
+							}),
+							Titanium.Slide.Object.textBox('slideObj_axisDataYZero', '0', {
+								display: 'none',
+								height: 50,
+								marginTop: -25,
+								top: '50%',
+								right: $(window).width() * 37 / 40 + 5,
+								fontSize: '18pt',
+								lineHeight: '50px',
+								color: 'rgb(255, 255, 255)'
+							}),
+							Titanium.Slide.Object.textBox('slideObj_axisDataYNegative', '-100', {
+								display: 'none',
+								right: $(window).width() * 37 / 40 + 5,
+								bottom: $(window).width() * 3 / 40 - 5,
+								fontSize: '18pt',
+								color: 'rgb(255, 255, 255)'
+							})
+						], eventQueue: [
+							function() {
+								$('#slideObj_axisX').width($(window).width() * 17 / 20);
+								$('#slideObj_axisY').css({
+									height: $(window).height() - $(window).width() * 3 / 20,
+									marginTop: ($(window).height() - $(window).width() * 3 / 20) / -2
+								});
+								
+								setTimeout(function() {
+									$('#slideObj_axisNameX, #slideObj_axisNameY, #slideObj_axisDataX, #slideObj_axisDataYPositive, #slideObj_axisDataYNegative, #slideObj_axisDataYZero').fadeIn(500);
+								}, 1000);
+								
+								setTimeout(function() {
+									Titanium.slideFlip('next');
+								}, 1250);
+							},
+							function() {
+								$('#slideObj_graphCanvas').fadeIn();
+							}
+						]
+					}),
+					Titanium.Slide({
+						Background: 'rgb(240, 227, 201)',
+						transitionEffect: 'fadein',
+						objectList: [
+							Titanium.Slide.Object.Native('slideObj_wannabeContainer', {
+								width: $(window).width() * 17 / 20,
+								height: $(window).height() - $(window).width() * 3 / 20,
+								top: $(window).width() * 3 / 40,
+								left: $(window).width() * 3 / 40
+							}, [
+								Titanium.Slide.Object.textBox('slideObj_wannabeWantToBe', 'I want to be a...', {
+									height: 200,
+									marginTop: -100,
+									position: 'absolute',
+									top: '50%',
+									fontStyle: 'italic',
+									fontSize: '72pt',
+									lineHeight: '200px',
+									fontFamily: 'TitilliumText22L Thin',
+									color: 'rgb(173, 154, 170)',
+									transition: 'all 0.5s linear'
+								}),
+								Titanium.Slide.Object.textBox('slideObj_wannabeDesigner', 'DESIGNER&nbsp;', {
+									opacity: 0,
+									height: 200,
+									marginTop: -100,
+									position: 'absolute',
+									top: '50%',
+									right: 10,
+									fontStyle: 'italic',
+									fontSize: '60pt',
+									lineHeight: '200px',
+									fontFamily: 'TitilliumText22L XBold',
+									color: 'rgb(173, 154, 170)',
+									transition: 'all 0.5s linear'
+								}),
+								Titanium.Slide.Object.textBox('slideObj_wannabeDeveloper', 'DEVELOPER&nbsp;', {
+									opacity: 0,
+									height: 200,
+									marginTop: -65,
+									position: 'absolute',
+									top: '50%',
+									right: 10,
+									fontStyle: 'italic',
+									fontSize: '60pt',
+									lineHeight: '200px',
+									fontFamily: 'TitilliumText22L XBold',
+									color: 'rgb(173, 154, 170)',
+									transition: 'all 0.5s linear'
+								})
+							]),
+							Titanium.Slide.Object.textBox('slideObj_wannabeWebAgency', 'Web agency', {
+								opacity: 0,
+								width: 1000,
+								height: 300,
+								marginLeft: -500,
+								top: (($(window).height() - 300) / 2) * 1.25,
+								left: '50%',
+								textAlign: 'center',
+								fontStyle: 'italic',
+								fontSize: '120pt',
+								lineHeight: '300px',
+								fontFamily: 'TitilliumText22L Regular',
+								color: 'rgb(83, 109, 136)',
+								transition: 'all 0.5s linear'
+							})
+						],
+						eventQueue: [
+							function() {
+								$('#slideObj_wannabeDesigner').css({
+									opacity: 1
+								});
+							},
+							function() {
+								$('#slideObj_wannabeDesigner').css({
+									marginTop: -135
+								});
+								
+								$('#slideObj_wannabeDeveloper').css({
+									opacity: 1
+								});
+							},
+							function() {
+								$('#slideObj_wannabeWantToBe, #slideObj_wannabeDesigner, #slideObj_wannabeDeveloper').css({
+									opacity: 0
+								});
+								
+								setTimeout(function() {
+									$('#slideObj_wannabeWebAgency').css({
+										opacity: 1,
+										top: ($(window).height() - 300) / 2
+									});
+								}, 500);
+							}
+						]
+					}),
+					Titanium.Slide({
+						Background: 'rgb(254, 191, 0)',
+						transitionEffect: '',
+						objectList: [
+							Titanium.Slide.Object.Native('slideObj_webAgency', {
+								width: 1200,
+								height: 300,
+								marginLeft: -600,
+								top: ($(window).height() - 300) / 2,
+								left: '50%',
+								textAlign: 'center',
+								fontStyle: 'italic',
+								fontSize: '120pt',
+								lineHeight: '300px',
+								fontFamily: 'TitilliumText22L Regular',
+								color: 'rgb(83, 109, 136)'
+							}, [
+								Titanium.Slide.Object.Text('Web agency&nbsp;'),
+								$(Titanium.Slide.Object.Text('=')).css({
+									fontFamily: 'TitilliumText22L XBold'
+								}).get(0),
+								$(Titanium.Slide.Object.Text('&nbsp;?')).css({
+									textRendering: 'initial'
+								}).get(0)
+							]),
+							Titanium.Slide.Object.textBox('slideObj_webAgencySuchAs', 'SUCH AS...', {
+								display: 'none',
+								height: 200,
+								marginTop: -100,
+								top: '50%',
+								left: $(window).width() * 3 / 40,
+								fontStyle: 'italic',
+								fontSize: '30pt',
+								lineHeight: '200px',
+								fontFamily: 'TitilliumText22L XBold',
+								color: 'rgb(255, 255, 255)'
+							}),
+							Titanium.Slide.Object.textBox('slideObj_webAgencyEtc', '... ETC&nbsp;', {
+								display: 'none',
+								height: 200,
+								marginTop: -100,
+								top: '50%',
+								right: $(window).width() * 3 / 40,
+								fontStyle: 'italic',
+								fontSize: '30pt',
+								lineHeight: '200px',
+								fontFamily: 'TitilliumText22L XBold',
+								color: 'rgb(255, 255, 255)'
+							}),
+							$(Titanium.Slide.Object.Image([$(window).width() * 3 / -40, ($(window).height() - 526) / 2], 'img.object.agency.site.png')).attr('id', 'slideObj_agencySite').get(0),
+							$(Titanium.Slide.Object.Image([$(window).width() * 3 / -40, ($(window).height() - 451) / 2], 'img.object.agency.code.png')).attr('id', 'slideObj_agencyCode').get(0),
+							$(Titanium.Slide.Object.Image([$(window).width() * 3 / -40, ($(window).height() - 451) / 2], 'img.object.agency.design.png')).attr('id', 'slideObj_agencyDesign').get(0),
+							$(Titanium.Slide.Object.Image([$(window).width() * 3 / -40, ($(window).height() - 451) / 2], 'img.object.agency.document.png')).attr('id', 'slideObj_agencyDocument').get(0)
+						],
+						eventQueue: [
+							function() {
+								$('#Slides > section').eq(Titanium.slideIndex).css({
+									background: 'rgb(0, 81, 132)'
+								});
+								
+								$('#slideObj_webAgency').hide();
+								$('#slideObj_webAgencySuchAs, #slideObj_webAgencyEtc, #slideObj_agencySite').show();
+							},
+							function() {
+								$('#slideObj_agencySite').hide();
+								$('#slideObj_agencyCode').show();
+							},
+							function() {
+								$('#slideObj_agencyCode').hide();
+								$('#slideObj_agencyDesign').show();
+							},
+							function() {
+								$('#slideObj_agencyDesign').hide();
+								$('#slideObj_agencyDocument').show();
+							},
+							function() {
+								$('#slideObj_agencyDocument').fadeOut();
+							}
+						]
+					}),
+					Titanium.Slide({
+						Background: 'rgb(179, 218, 0)',
+						transitionEffect: 'fadein',
+						entranceEffect: function() {
+							Cufon.replace('#slideObj_portfolioItemBrief');
+							
+							setTimeout(function() {
+								$('#slideObj_portfolioIframe').fadeIn();
+							}, 5000);
+						},
+						objectList: [
+							Titanium.Slide.Object.Native('slideObj_portfolioContainer', {
+								width: $(window).width() * 17 / 20,
+								height: $(window).height() - $(window).width() * 3 / 20,
+								top: $(window).width() * 3 / 40,
+								left: $(window).width() * 3 / 40
+							}, [
+								Titanium.Slide.Object.textBox('slideObj_portfoliName', 'PORTFOLIO', {
+									fontSize: ($(window).width() * 9 / 160).toString() + 'pt',
+									lineHeight: ($(window).width() * 9 / 160).toString() + 'pt',
+									fontFamily: 'TitilliumText22L Thin',
+									color: 'rgb(255, 255, 255)'
+								}),
+								Titanium.Slide.Object.textBox('slideObj_portfolioItemName', 'HELIUM<br />LITHIUM<br />FERRUM<br />TITANIUM<br />CARBONIUM', {
+									position: 'absolute',
+									top: $(window).width() * 7 / 64,
+									fontSize: ($(window).width() / 60).toString() + 'pt',
+									lineHeight: ($(window).width() / 30).toString() + 'pt',
+									fontFamily: 'TitilliumText22L XBold',
+									color: 'rgb(255, 255, 255)'
+								}),
+								Titanium.Slide.Object.textBox('slideObj_portfolioItemBrief', 'Content management system<br />Web virtual operating system<br />Ubiquitous cloud storage<br />Hypertext presentation renderer<br />HTML5 canvas two-d content library', {
+									position: 'absolute',
+									top: $(window).width() * 7 / 64,
+									left: $(window).width() * 29 / 192,
+									fontSize: ($(window).width() / 60).toString() + 'pt',
+									lineHeight: ($(window).width() / 30).toString() + 'pt',
+									fontFamily: 'TitilliumText22L Light',
+									color: 'rgb(255, 255, 255)'
+								})
+							]),
+							$(Titanium.Slide.Object.Image([$(window).width() * 3 / -40, ($(window).height() - 839) / 2], 'img.object.wofex.png')).get(0),
+							$('<iframe src="http://www.isdev.kr/hx0a5f/wf/?direct" frameborder="0"></iframe>').css({
+								display: 'none',
+								width: 384,
+								height: 640,
+								position: 'absolute',
+								top: ($(window).height() - 839) / 2 + 93,
+								right: $(window).width() * 3 / 40 + 55
+							}).attr('id', 'slideObj_portfolioIframe').get(0)
+						],
+					}),
+					Titanium.Slide({
+						Background: 'url(img.object.bg.university.png)',
+						transitionEffect: 'fadein',
+						objectList: [
+							Titanium.Slide.Object.Native('slideObj_hyContainer', {
+								display: 'none',
+								width: $(window).width() * 13 / 32,
+								height: $(window).width() * 9 / 80,
+								background: 'rgba(0, 0, 0, 0.65) url(img.object.hanyang.png) no-repeat 0 0',
+								backgroundSize: '100%',
+								top: $(window).width() * 3 / 40
+							}, []),
+							Titanium.Slide.Object.Native('slideObj_ssContainer', {
+								display: 'none',
+								width: $(window).width() * 13 / 32,
+								height: $(window).width() * 9 / 80,
+								background: 'rgba(0, 0, 0, 0.65) url(img.object.sungsil.png) no-repeat 0 0',
+								backgroundSize: '100%',
+								right: 0,
+								bottom: $(window).width() * 3 / 40
+							}, [])
+						],
+						eventQueue: [
+							function() {
+								$('#slideObj_hyContainer').fadeIn();
+							},
+							function() {
+								$('#slideObj_ssContainer').fadeIn();
+							},
+						]
+					}),
+					Titanium.Slide({
+						Background: 'url(img.object.bg.additional.png)',
+						transitionEffect: 'fadein',
+						objectList: [
+							Titanium.Slide.Object.Native('slideObj_swMaestro', {
+								display: 'none',
+								width: 530,
+								height: 395,
+								background: 'url(img.object.swmaestro.png)',
+								top: ($(window).height() - 395) / 2,
+								left: ($(window).width() - 530) / 2
+							}, []),
+							Titanium.Slide.Object.Native('slideObj_nhnNext', {
+								display: 'none',
+								width: 328,
+								height: 81,
+								background: 'url(img.object.nhnnext.png)',
+								top: ($(window).height() - 81) / 2,
+								left: ($(window).width() - 328) / 2
+							}, [])
+						],
+						eventQueue: [
+							function() {
+								$('#slideObj_swMaestro').fadeIn();
+							},
+							function() {
+								$('#slideObj_swMaestro').fadeOut();
+								$('#slideObj_nhnNext').fadeIn();
+							}
+						]
+					}),
+					Titanium.Slide({
+						transitionEffect: 'fadein',
+						objectList: [
+							$(Titanium.Slide.Object.Image([0, 0], 'img.object.thanks.png')).height($(window).height()).width(Math.ceil($(window).height() * 143 / 193)).get(0),
+							Titanium.Slide.Object.Native('slideObj_Thanks', {
+								height: 480,
+								marginTop: -240,
+								top: '50%',
+								right: $(window).height() * 3 / 20,
+								fontStyle: 'italic',
+								fontSize: ($(window).width() * 3 / 80).toString() + 'pt',
+								lineHeight: '480px'
+							}, [
+								$(Titanium.Slide.Object.Text('THANK')).css({
+									fontFamily: 'TitilliumText22L Light'
+								}).get(0),
+								$(Titanium.Slide.Object.Text('YOU')).css({
+									fontFamily: 'TitilliumText22L Medium'
+								}).get(0),
+								$(Titanium.Slide.Object.Text('FOR')).css({
+									fontFamily: 'TitilliumText22L Thin'
+								}).get(0),
+								$(Titanium.Slide.Object.Text('LISTENING ')).css({
+									fontFamily: 'TitilliumText22L XBold'
+								}).get(0)
+							])
+						]
+					}),
+					Titanium.Slide({
+						Background: 'rgb(0, 0, 0)',
+						transitionEffect: '',
+						objectList: [
+							Titanium.Slide.Object.textBox('slideObj_Question', 'QUESTION!', {
+								width: 1280,
+								height: 640,
+								margin: '-320px 0 0 -640px',
+								top: '50%',
+								left: '50%',
+								textAlign: 'center',
+								fontStyle: 'italic',
+								fontSize: ($(window).width() * 3 / 32).toString() + 'pt',
+								lineHeight: '640px',
+								fontFamily: 'TitilliumText22L XBold',
+								color: 'rgb(255, 255, 255)'
+							})
+						]
+					})
+				]
+			});
+			
+			Titanium.showContext('Introduce');
+		</script>
+	</body>
+</html>

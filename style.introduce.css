@@ -1,0 +1,33 @@
+@charset "utf-8";
+
+@font-face {
+    font-family: 'TitilliumText22L Thin';
+    src: url('font.titillium.thin.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'TitilliumText22L Light';
+    src: url('font.titillium.light.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'TitilliumText22L Regular';
+    src: url('font.titillium.regular.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'TitilliumText22L Medium';
+    src: url('font.titillium.medium.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'TitilliumText22L Bold';
+    src: url('font.titillium.bold.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'TitilliumText22L XBold';
+    src: url('font.titillium.xbold.woff') format('woff');
+}
+
+#Slides > section:first-child canvas, #Slides > section:nth-child(5) img { display: none }

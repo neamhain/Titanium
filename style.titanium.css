@@ -1,0 +1,75 @@
+@charset "utf-8";
+
+* { margin: 0; padding: 0; outline: 0; text-rendering: optimizeLegibility; -webkit-font-smoothing: subpixel-antialiased; font-smooth: always }
+html, body, #Titanium { height: 100%; background: rgb(255, 255, 255); position: relative; overflow: hidden }
+
+::selection { background: transparent }
+::-webkit-scrollbar { width: 10px; height: 12px }
+::-webkit-scrollbar-button:start:decrement, ::-webkit-scrollbar-button:end:increment { display: black }
+::-webkit-resizer { display: none }
+::-webkit-scrollbar-track { background-color: rgb(245, 245, 245); -webkit-box-shadow: inset 0px 0 0 rgb(210, 210, 210), inset -1px 0 0 rgb(227, 227, 227) }
+::-webkit-scrollbar-track:hover { -webkit-box-shadow: inset 1px 0 0 rgb(211, 211, 211), inset -1px 0 0 rgb(227, 227, 227) }
+::-webkit-scrollbar-thumb { background-color: rgb(203, 203, 203); -webkit-box-shadow: inset 1px 0 0 rgb(182, 182, 182), inset -1px 0 0 rgb(180, 180, 180), inset 0 1px 0 rgb(175, 175, 175), inset 0 -1px 0 rgb(181, 181, 181) }
+::-webkit-scrollbar-thumb:hover { background-color: rgb(147, 147, 147); -webkit-box-shadow: inset 1px 0 0 rgb(100, 100, 100), inset -1px 0 0 rgb(135, 135, 135), inset 0 1px 0 rgb(116, 116, 116), inset 0 -1px 0 rgb(116, 116, 116) }
+::-webkit-scrollbar-thumb:active { background-color: rgb(122, 122, 122); -webkit-box-shadow: inset 1px 0 0 rgb(82, 82, 82), inset -1px 0 0 rgb(109, 109, 109), inset 0 1px 0 rgb(95, 95, 95), inset 0 -1px 0 rgb(95, 95, 95) }
+
+#Titanium { cursor: none; display: none; font: normal normal normal 12pt/normal 'Microsoft NeoGothic', sans-serif }
+
+#Slides > section { display: none; width: 100%; height: 100%; background: rgb(255, 255, 255); background-size: cover; position: fixed; top: 0; left: 0 }
+#Slides > section > * { position: fixed }
+
+#Navigations > section { position: fixed; right: 15px }
+#Navigations > section:first-child { top: -25px; z-index: 1000; opacity: 0.1; transition: all 0.5s ease }
+#Navigations > section:first-child:hover { top: 0; opacity: 1 }
+#Navigations > section:nth-child(2) { bottom: 20px; opacity: 0.2; transition: opacity 0.375s ease }
+#Navigations > section:nth-child(2):hover { opacity: 1 }
+#Navigations > section:last-child { width: 100%; height: 5px; background: rgba(0, 0, 0, 0.375); right: 0; bottom: 0 }
+#Navigations > section:last-child section { width: 0; height: 5px; background: transparent url(img.bg.slide.counter.png); transition: 1.25s ease-out }
+#Navigations input { cursor: pointer; float: left; display: block; width: 45px; height: 35px; border: 0; background: rgb(0, 153, 204) none no-repeat 100% 100% }
+#Navigations input:first-child { background-color: rgb(51, 181, 229) }
+#Navigations section:first-child input:last-child { background-image: url(img.bg.btn.nav.exit.png) }
+#Navigations section:first-child input:first-child { background-image: url(img.bg.btn.nav.modify.png) }
+#Navigations section:nth-child(2) input:first-child { background-image: url(img.bg.btn.nav.prev.png); background-position: 100% 0 }
+#Navigations section:nth-child(2) input:last-child { background-image: url(img.bg.btn.nav.next.png); background-position: 0 100% }
+
+body.Decrypt #Navigations section:first-child input:first-child, body.Decrypt #Navigations section:nth-child(2), body.Decrypt #Navigations > section:last-child { display: none }
+
+#Dialog, #Shell, #Decrypt { cursor: auto; display: none; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); position: fixed; top: 0; left: 0 }
+
+#Decrypt > section { width: 550px; height: 30px; margin: -20px 0 0 -280px; padding: 5px; background: rgb(51, 181, 229); position: absolute; top: 50%; left: 50%; transition: all 0.01s linear }
+#Decrypt > section > * { display: inline-block; vertical-align: middle }
+#Decrypt > section span { width: 150px; font: normal normal normal 20pt/30px 'Microsoft NeoGothic', sans-serif; color: rgb(255, 255, 255) }
+#Decrypt > section span cufon { margin-top: -7px }
+#Decrypt > section input { width: 390px; height: 20px; padding: 5px; border: 0; background: rgb(255, 255, 255); font: italic normal normal 11pt/normal 'Segoe UI', 'Malgun Gothic', 'Tahoma', sans-serif; color: rgb(96, 96, 96) }
+
+#Dialog > section, #Shell > section { min-width: 360px; min-height: 160px; margin: -80px 0 0 -180px; padding: 15px; background: rgb(255, 255, 255); position: absolute; top: 50%; left: 50%; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.75); opacity: 0 }
+#Dialog > section *, #Shell > section * { display: block }
+#Dialog > section h1, #Shell > section h1 { height: 45px; font-weight: normal; font-size: 24pt; color: rgb(204, 0, 0) }
+#Dialog > section h1 cufon, #Shell > section h1 cufon { float: left }
+#Dialog > section p { margin-bottom: 10px; color: rgb(119, 119, 119); text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1) }
+#Dialog > section section, #Shell > section > section:last-child { height: 45px; position: absolute; right: 15px; bottom: 15px }
+#Dialog > section button, #Dialog > section input, #Shell > section button { float: right; font: normal normal normal 12pt/normal 'Microsoft NeoGothic', sans-serif }
+#Dialog > section input { display: none }
+#Dialog > section button, #Shell > section button { cursor: pointer; width: 135px; height: 45px; margin-left: 10px; padding: 0 15px; border: 0; background: rgb(0, 153, 204) none no-repeat 100% 100%; text-align: left; font-size: 14pt; color: rgb(255, 255, 255) }
+#Dialog > section button:nth-child(1), #Shell > section button { background-image: url(img.bg.btn.dialog.cancle.png) }
+#Dialog > section button:nth-child(2) { background-image: url(img.bg.btn.dialog.ok.png) }
+#Dialog > section button:hover, #Shell > section button:hover { background-color: rgb(51, 181, 229) }
+#Dialog > section button:active, #Shell > section button:active { background-color: rgb(0, 114, 154) }
+#Dialog > section button cufon, #Shell > section button cufon { margin-top: -3px }
+
+#Shell > section { width: 600px; height: 480px; margin: -240px 0 0 -300px }
+#Shell > section > section:nth-child(2) { height: 373px; border: solid 1px rgba(0, 0, 0, 0.25); box-shadow: inset 0 1px 2px 0 rgba(0, 0, 0, 0.1); overflow: auto }
+#Shell > section > section:nth-child(2) > section:first-child > section.Result, #Shell > section > section:nth-child(2) > section:first-child > section.Log, #Shell > section > section:nth-child(2) > section:last-child { height: 16px; padding: 2px 0 2px 25px; border-top: solid 1px rgb(240, 240, 240); background: transparent url(img.icon.shell.result.png) no-repeat 10px 50%; font: normal normal normal 12px/16px Consolas, Lucida Console, monospace; white-space: pre-wrap }
+#Shell > section > section:nth-child(2) > section:first-child > section.Result, #Shell > section > section:nth-child(2) > section:first-child > section.Log { height: auto; background-position: 10px 7px }
+#Shell > section > section:nth-child(2) > section:first-child > section.Result section:first-child { padding-bottom: 1px; border-bottom: solid 1px rgb(240, 240, 240); color: rgb(0, 153, 204) }
+#Shell > section > section:nth-child(2) > section:first-child > section.Result section:last-child { padding-top: 1px }
+#Shell > section > section:nth-child(2) > section:first-child > section.Result section:last-child span { display: inline; color: rgb(0, 0, 0) }
+#Shell > section > section:nth-child(2) > section:first-child > section.Result section:last-child span.Empty { color: rgb(128, 128, 128) }
+#Shell > section > section:nth-child(2) > section:first-child > section.Result section:last-child span.Error { color: rgb(255, 0, 0) }
+#Shell > section > section:nth-child(2) > section:first-child > section.Result section:last-child span.String { color: rgb(192, 0, 0) }
+#Shell > section > section:nth-child(2) > section:first-child > section.Result section:last-child span.Normal { color: rgb(0, 0, 255) }
+#Shell > section > section:nth-child(2) > section:first-child > section.Log { background-image: url(img.icon.shell.result.log.png) }
+#Shell > section > section:nth-child(2) > section:last-child { background-image: url(img.icon.shell.input.png); -webkit-user-modify: read-write-plaintext-only }
+#Shell > section > section:nth-child(2) *::selection { background: initial; color: rgb(255, 255, 255) }
+
+#Initializer { display: none; width: 100%; height: 100%; background: rgb(255, 255, 255) url(img.logo.titanium.png) no-repeat 50% 50%; position: fixed; top: 0; left: 0 }
